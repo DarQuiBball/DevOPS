@@ -1,0 +1,18 @@
+Dans ce TP nous devons créer une image de notre API sur Docker.
+
+Il fallait : 
+- Créer une image Docker avec un seul stage qui permet d’exécuter votre API développée précédemment
+
+- L'image devait etre être la plus optimisée possible concernant l'ordre des layers afin de limiter le temps de build 
+
+lors des modifications sur le code-Scanner votre image avec docker scan, trivy ou clair pour obtenir la liste des vulnérabilités détectées
+
+- Scanner votre image avec docker scan, trivy ou clair pour obtenir la liste des vulnérabilités détectées
+
+- L'image doit utiliser un utilisateur spécifique pour l'exécution de votre serveur web
+
+- Créer une seconde image Docker pour votre API avec les mêmes contraintes en termes d'optimisations mais avec plusieurs stages 
+un pour l'étape de build et une autre pour l’exécution (qui ne contient pas les sources)
+
+En premier il fallait créer un Dockerfile : 
+
