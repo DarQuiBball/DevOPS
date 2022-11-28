@@ -14,5 +14,20 @@ lors des modifications sur le code-Scanner votre image avec docker scan, trivy o
 - Créer une seconde image Docker pour votre API avec les mêmes contraintes en termes d'optimisations mais avec plusieurs stages 
 un pour l'étape de build et une autre pour l’exécution (qui ne contient pas les sources)
 
-En premier il fallait créer un Dockerfile : 
+Pour cela il fallait créer un fichier en .dockerfile qui allait créer l'image de l'API avec les consignes ci-dessus
+Sachant que j'ai reprit le code de la correction donc il n'y a pas de dépendance. 
+Voici le code : 
+
+FROM rust //rust=language utilisé 
+WORKDIR /app
+
+RUN adduser 
+RUN chown std -R /app //donner les droits à l'utilisateur
+USER std
+
+RUN cargo new --bin tp1 //créer le projet
+
+RUN cargo build //construire l'image
+
+
 
