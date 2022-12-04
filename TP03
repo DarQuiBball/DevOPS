@@ -1,0 +1,69 @@
+Dans ce 3ème TP nous devons : 
+
+- Créer un docker-compose avec pour seul service un container basé sur le Dockerfile créé dans le TP WIK-DPS-TP02
+
+- Augmenter le nombre de réplicas à 4 pour ce service
+
+- Modifier le docker-compose pour ajouter un reverse-proxy (nginx), seule le reverse-proxy doit être exposé sur votre hôte sur le port 8080
+
+- Configurer nginx (nginx.conf) pour loadbalancer les requêtes vers le service basé sur votre image
+
+- Modifier le code de votre API pour afficher le hostname dans les logs à chaque requête sur /ping, 
+lancer votre docker-compose.yaml et observer l'effet du l'équilibrage de charge
+
+Le docker compose : 
+
+version: '3'
+
+services:
+  my_app:
+    build:
+      context: .
+      dockerfile: multi-stage.dockerfile
+    ports:
+        - '9000'
+    deploy:
+      replicas: 4
+    restart: always
+    environment:
+        - PING_LISTEN_PORT=9000
+
+    networks:
+      - front-networks
+      
+  proxy:
+
+    image: nginx:latest
+
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+    ports:
+      - 8080:80
+
+    depends_on:
+      - my_app
+    networks:
+      - front-networks
+networks:
+    front-networks:
+      driver: bridge
+volumes:
+  db_data:
+  
+  
+  Le nginx.conf :
+  
+  Modification du code pour afficher le hostname dans les logs à chaque requete sur /ping: 
+  
+  Ajout de : use gethostname::gethostname;
+  
+  Configurer la variable dans la requete du /ping : 
+  
+  let _host = gethostname().into_string().unwrap();
+        println!("Hostname: {:?}", gethostname());
+        
+ Lancer votre docker-compose.yaml et observer l'effet du l'équilibrage de charge : 
+ 
+ 
+  
